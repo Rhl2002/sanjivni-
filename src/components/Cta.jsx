@@ -15,7 +15,7 @@ const Cta = () => {
   // useEffect(() => {
   //   fetchProduct()
   // }, [])
- 
+
   const monthMap = {
     January: "1",
     February: "2",
@@ -53,10 +53,10 @@ const Cta = () => {
 
     // Make the API request with the month number
     axios
-      .get(`http://localhost:8000/predict/${ selectedMonth }`)
+      .get(`http://localhost:8000/predict/${selectedMonth}`)
       .then((response) => {
         // Handle the response
-        console.log("product for month",response)
+        console.log("product for month", response)
         setPredictedDemand(response.data.products);
       })
       .catch((error) => {
@@ -109,46 +109,32 @@ const Cta = () => {
               management and customer satisfaction.
             </p>
           </div>
-          <div className="col-lg-3 cta-btn-container text-center">
+        </div>
+        <div className="row mt-4">
+          <div className="col">
+            <div className="mb-3">
+              <label htmlFor="monthSelect" className="form-label">
+                Select Month:
+              </label>
+              <select
+                className="form-select"
+                id="monthSelect"
+                value={selectedMonth}
+                onChange={handleChangeMonth}
+              >
+                <option value="">Select Month</option>
+                {monthOptions}
+              </select>
+            </div>
             <button
-              className="cta-btn align-middle"
-              onClick={handleShowTable}
-              style={{ border: "2px solid #47b2e4", background: "#47b2e4" }}
+              className="btn btn-primary"
+              onClick={handleFetchPrediction}
             >
-              Show Prediction Table
+              Fetch Prediction
             </button>
+            {predictedDemand.length > 0 && renderTable()}
           </div>
         </div>
-        {showTable && (
-          <div className="row mt-4">
-            <div className="col">
-              <div className="mb-3">
-                <label htmlFor="monthSelect" className="form-label">
-                  Select Month:
-                </label>
-                <select
-                  className="form-select"
-                  id="monthSelect"
-                  value={selectedMonth}
-                  onChange={handleChangeMonth}
-                >
-                  <option value="">Select Month</option>
-                  {monthOptions}
-                </select>
-              </div>
-              <button
-                className="btn btn-primary"
-                onClick={handleFetchPrediction}
-              >
-                Fetch Prediction
-              </button>
-              {/* {predictedDemand !== null && (
-                <p>Predicted Demand: {predictedDemand}</p>
-              )} */}
-               {predictedDemand.length > 0 && renderTable()}
-            </div>
-          </div>
-        )}
       </div>
     </section>
   );
